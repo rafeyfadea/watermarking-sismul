@@ -64,14 +64,6 @@ QF 10 fails (BER = 0.344). QF 30 and above all pass.
 
 Minimum safe QF: **30**
 
-## Requirements
-
-```
-numpy
-matplotlib
-Pillow
-```
-
 ## Usage
 
 Open `watermarking_dct_final.ipynb` and run cells top to bottom. Change `IMAGE_PATH` in the first cell to your own image:
