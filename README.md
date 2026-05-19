@@ -15,8 +15,8 @@ The watermark is invisible to the human eye — hidden inside DCT frequency coef
 ## Installation
 
 ```bash
-git clone https://github.com/rafeyfadea/watermark-sismul-dct.git
-cd watermark-sismul-dct
+git clone https://github.com/rafeyfadea/watermarking-sismul.git
+cd watermark-sismul
 pip install -e .
 ```
 
