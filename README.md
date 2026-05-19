@@ -1,4 +1,4 @@
-# watermark-sismul-dct
+# watermarking-sismul
 
 DCT-based invisible image watermarking. Embed and extract hidden binary watermarks in the frequency domain, robust against JPEG compression.
 
