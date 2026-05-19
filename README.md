@@ -10,57 +10,78 @@ DCT-based invisible image watermarking. Embed and extract hidden binary watermar
 |:---:|:---:|:---:|
 | ![original](images/original.png) | ![watermarked](images/watermarked.png) | ![difference](images/difference.png) |
 
-The watermark is invisible to the human eye — hidden inside DCT frequency coefficients.
+The watermark is invisible to the human eye, hidden inside DCT frequency coefficients.
 
-## Installation
+# DCT Domain Watermarking
 
-```bash
-git clone https://github.com/rafeyfadea/watermarking-sismul.git
-cd watermark-sismul
-pip install -e .
+Embedding a binary watermark into a face image using the DCT domain, then evaluating how well it survives JPEG compression at different quality factors.
+
+## How it works
+
+The image is converted to 64x64 grayscale and split into 8x8 blocks — the same unit JPEG uses internally. A 16x16 binary watermark (X pattern, 256 bits total) is generated, and the first 64 bits are embedded one bit per block at mid-frequency DCT coefficients `[1,2]` and `[2,1]`. Mid-frequency is chosen because it's strong enough to survive compression without visibly distorting the image. After embedding, the image is JPEG-compressed at QF 10, 30, 50, 70, and 90. The watermark is then extracted and evaluated using BER (Bit Error Rate). BER above 0.3 means more than 30% of bits were lost which considered a failure.
+
+## Results
+
+**Step 1 — Load and split into 8x8 blocks**
+
+![Step 1](assets/step1.png)
+
+**Step 2 — Binary watermark (X pattern)**
+
+![Step 2](assets/step2.png)
+
+**Step 3 — DCT coefficients and embedding positions**
+
+![Step 3](assets/step3.png)
+
+**Step 4 — Before and after embedding (alpha=25)**
+
+The watermark is invisible to the eye. Average pixel difference: 5.37.
+
+![Step 4](assets/step4.png)
+
+**Step 5 — JPEG compression at QF 10, 30, 50, 70, 90**
+
+Lower QF = heavier quantization = more watermark bits lost.
+
+![Step 5](assets/step5.png)
+
+**Step 6 — Extraction and BER evaluation**
+
+QF 10 fails (BER = 0.344). QF 30 and above all pass.
+
+![Step 6](assets/step6.png)
+
+## BER summary
+
+| QF | BER | Status |
+|----|-----|--------|
+| 10 | 0.344 | FAIL |
+| 30 | 0.188 | OK |
+| 50 | 0.141 | OK |
+| 70 | 0.172 | OK |
+| 90 | 0.156 | OK |
+
+Minimum safe QF: **30**
+
+## Requirements
+
+```
+numpy
+matplotlib
+Pillow
 ```
 
-## How to Use with Your Own Image
+## Usage
+
+Open `watermarking_dct_final.ipynb` and run cells top to bottom. Change `IMAGE_PATH` in the first cell to your own image:
 
 ```python
-import numpy as np
-from PIL import Image
-from watermark_sismul import WatermarkEncoder, WatermarkDecoder, create_binary_watermark, compute_ber
-
-# Load your image (change this path)
-img = Image.open('your_photo.jpg').convert('L')
-image = np.array(img)
-
-# Create watermark
-watermark = create_binary_watermark(size=16)  # 16×16 = 256 bits
-
-# Embed
-encoder = WatermarkEncoder(alpha=25)
-watermarked = encoder.encode(image, watermark)
-Image.fromarray(watermarked).save('result.jpg')
-
-# Extract and verify
-decoder = WatermarkDecoder()
-extracted = decoder.decode(watermarked, len(watermark))
-ber = compute_ber(watermark, extracted)
-print(f"BER: {ber:.4f} — {'OK' if ber <= 0.3 else 'FAIL'}")
+IMAGE_PATH = '/path/to/your/photo.png'
 ```
 
-Replace `'your_photo.jpg'` with any image file. The output `result.jpg` contains the hidden watermark.
+Embedding and extraction each take 1-2 minutes because DCT is computed manually per pixel.
 
-## JPEG Robustness Test
+## Reference
 
-```python
-from watermark_sismul import evaluate_robustness
-
-results = evaluate_robustness(watermarked, watermark, quality_factors=[10, 30, 50, 70, 90])
-for qf, res in results.items():
-    print(f"QF {qf:3d} | BER={res['ber']:.4f} | {'PASS' if res['success'] else 'FAIL'}")
-```
-
-## Parameters
-
-| Parameter | Default | Effect |
-|-----------|---------|--------|
-| `alpha` | `25.0` | Embedding strength — higher = more robust, less invisible |
-| `size` | `16` | Watermark size (16 → 256 bits, must fit image blocks) |
+- [invisible-watermark](https://github.com/ShieldMnt/invisible-watermark) — Python library for invisible watermarking using DCT, DWT, and DFT
