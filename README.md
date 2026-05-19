@@ -18,35 +18,35 @@ Embedding a binary watermark into a face image using the DCT domain, then evalua
 
 ## How it works
 
-The image is converted to 64x64 grayscale and split into 8x8 blocks — the same unit JPEG uses internally. A 16x16 binary watermark (X pattern, 256 bits total) is generated, and the first 64 bits are embedded one bit per block at mid-frequency DCT coefficients `[1,2]` and `[2,1]`. Mid-frequency is chosen because it's strong enough to survive compression without visibly distorting the image. After embedding, the image is JPEG-compressed at QF 10, 30, 50, 70, and 90. The watermark is then extracted and evaluated using BER (Bit Error Rate). BER above 0.3 means more than 30% of bits were lost which considered a failure.
+The image is converted to 64x64 grayscale and split into 8x8 blocks where the same unit JPEG uses internally. A 16x16 binary watermark (X pattern, 256 bits total) is generated, and the first 64 bits are embedded one bit per block at mid-frequency DCT coefficients `[1,2]` and `[2,1]`. Mid-frequency is chosen because it's strong enough to survive compression without visibly distorting the image. After embedding, the image is JPEG-compressed at QF 10, 30, 50, 70, and 90. The watermark is then extracted and evaluated using BER (Bit Error Rate). BER above 0.3 means more than 30% of bits were lost which considered a failure.
 
 ## Results
 
-**Step 1 — Load and split into 8x8 blocks**
+**Step 1: Load and split into 8x8 blocks**
 
 ![Step 1](files/step1.png)
 
-**Step 2 — Binary watermark (X pattern)**
+**Step 2: Binary watermark (X pattern)**
 
 ![Step 2](files/step2.png)
 
-**Step 3 — DCT coefficients and embedding positions**
+**Step 3: DCT coefficients and embedding positions**
 
 ![Step 3](files/step3.png)
 
-**Step 4 — Before and after embedding (alpha=25)**
+**Step 4: Before and after embedding (alpha=25)**
 
 The watermark is invisible to the eye. Average pixel difference: 5.37.
 
 ![Step 4](files/step4.png)
 
-**Step 5 — JPEG compression at QF 10, 30, 50, 70, 90**
+**Step 5: JPEG compression at QF 10, 30, 50, 70, 90**
 
 Lower QF = heavier quantization = more watermark bits lost.
 
 ![Step 5](files/step5.png)
 
-**Step 6 — Extraction and BER evaluation**
+**Step 6: Extraction and BER evaluation**
 
 QF 10 fails (BER = 0.344). QF 30 and above all pass.
 
