@@ -82,6 +82,3 @@ IMAGE_PATH = '/path/to/your/photo.png'
 
 Embedding and extraction each take 1-2 minutes because DCT is computed manually per pixel.
 
-## Reference
-
-- [invisible-watermark](https://github.com/ShieldMnt/invisible-watermark) — Python library for invisible watermarking using DCT, DWT, and DFT
