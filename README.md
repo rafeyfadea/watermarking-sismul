@@ -193,17 +193,3 @@ Embedding and extraction each take 1–2 minutes because DCT is computed manuall
 | `IMG_SIZE` | 256 | Input image resize target. Must be multiple of 8 |
 
 ---
-
-## Requirements
-
-```
-numpy
-pillow
-matplotlib
-```
-
-No DCT libraries. No JPEG codecs beyond PIL for file I/O. No watermarking toolkits.
-
-```bash
-pip install numpy pillow matplotlib
-```
