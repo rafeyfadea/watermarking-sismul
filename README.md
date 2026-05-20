@@ -20,7 +20,7 @@ The watermark is invisible to the human eye — hidden inside mid-frequency DCT 
 
 ## What this is
 
-A complete image watermarking pipeline written from scratch in Python. No built-in DCT functions, no JPEG libraries, no watermarking toolkits. Every step — DCT, inverse DCT, JPEG quantization, QIM embedding, extraction — is implemented manually using only NumPy, Pillow, and Matplotlib.
+A complete image watermarking pipeline written from scratch in Python. No built-in DCT functions, no JPEG libraries, no watermarking toolkits. Every step DCT, inverse DCT, JPEG quantization, QIM embedding, extraction  is implemented manually using only NumPy, Pillow, and Matplotlib.
 
 The goal is to embed a binary watermark into a face photo, compress the watermarked image at various JPEG quality factors, and measure how much of the watermark survives.
 
