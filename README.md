@@ -105,7 +105,7 @@ The DCT coefficients of a single 8×8 block, shown in log scale. The cyan box ma
 
 ![Step 3](images/step3.png)
 
-**Step 4: QIM — two quantization grids**
+**Step 4: QIM two quantization grids**
 
 Left: the two quantization grids (blue = bit 0, red = bit 1) offset by Δ/2 = 20. Right: decoding decision regions — any coefficient landing in a blue region is decoded as 0, red as 1.
 
@@ -164,21 +164,6 @@ Larger Δ = more robust against compression, but lower PSNR (more visible distor
 **Minimum safe QF: 80**
 
 The hard cutoff is between QF = 80 and QF = 70. At QF = 80, the quantization step at [4,3] is small enough that it does not cross the Δ/4 boundary. At QF = 70 it does, and the BER jumps directly to ~50% — not a gradual degradation, a cliff edge. This is characteristic of QIM: it either works cleanly or fails completely.
-
----
-
-## Files
-
-```
-watermarking-sismul/
-├── watermarking_final.ipynb   main notebook (10 steps, full pipeline)
-├── README.md                  this file
-└── images/
-    ├── original.png
-    ├── watermarked.png
-    ├── difference.png
-    ├── step1.png  through  step10.png
-```
 
 ---
 
