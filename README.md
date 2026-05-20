@@ -14,7 +14,7 @@ DCT-based invisible image watermarking. Embed and extract hidden binary watermar
 |:---:|:---:|:---:|
 | ![original](images/original.png) | ![watermarked](images/watermarked.png) | ![difference](images/difference.png) |
 
-The watermark is invisible to the human eye — hidden inside mid-frequency DCT coefficients. Average pixel difference after embedding: **mean = 0.003, max = 24.7**.
+The watermark is invisible to the human eye and hidden inside mid-frequency DCT coefficients. Average pixel difference after embedding: **mean = 0.003, max = 24.7**.
 
 ---
 
